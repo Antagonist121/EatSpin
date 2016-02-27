@@ -18,17 +18,23 @@ var app = angular.module('myApp', []).controller('customersCtrl', function($scop
 			$http.get("http://public.je-apis.com/restaurants?q=" + rests.yourPostcode).then(function(response) {
 				$scope.restNames = [];
 				$scope.restCuisines = [];
+				$scope.restCuisineNames = new Object();
 				angular.forEach(response, function(value, key) {
 					angular.forEach(value.Restaurants, function(restaurant, key) {
-						this.push(restaurant);
-					
 						angular.forEach(restaurant.CuisineTypes, function(cuisine, key){
 							var cuisineName = cuisine.Name;
 							 
 							if(this.indexOf(cuisineName) == -1){
 								this.push(cuisineName);
 							}
+							if($scope.restCuisineNames[cuisineName] != undefined){
+								$scope.restCuisineNames[cuisineName].push(restaurant.Name);
+							} else {
+								$scope.restCuisineNames[cuisineName] = [restaurant.Name];
+							}
 						},$scope.restCuisines);
+						this.push(restaurant);
+
 					}, $scope.restNames);
 				});	
 			});

@@ -21,11 +21,15 @@
 		<ul>
 			<li ng-repeat="x in restCuisines">
 				{{x}}
-			</li>
+			</li>	
+		</ul>
+		<ul>
 			
+			<li ng-repeat="(cuisine, restauNames) in restCuisineNames">
+				Cuisine {{cuisine}} has the restaurants {{restauNames}}:
+			</li>
 		</ul>
 		</div>
-
 	  </div>	  
 	<script src="index.js"></script>
       </body>
