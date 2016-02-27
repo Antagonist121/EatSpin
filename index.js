@@ -16,11 +16,20 @@ var app = angular.module('myApp', []).controller('customersCtrl', function($scop
 			$http.defaults.headers.common['Accept-Version'] = '2';
 
 			$http.get("http://public.je-apis.com/restaurants?q=" + rests.yourPostcode).then(function(response) {
-				$scope.myData = [];
+				$scope.restNames = [];
+				$scope.restCuisines = [];
 				angular.forEach(response, function(value, key) {
 					angular.forEach(value.Restaurants, function(restaurant, key) {
 						this.push(restaurant);
-					}, $scope.myData);
+					
+						angular.forEach(restaurant.CuisineTypes, function(cuisine, key){
+							var cuisineName = cuisine.Name;
+							 
+							if(this.indexOf(cuisineName) == -1){
+								this.push(cuisineName);
+							}
+						},$scope.restCuisines);
+					}, $scope.restNames);
 				});	
 			});
 			rests.showValues = true;

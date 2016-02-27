@@ -11,10 +11,18 @@
 		<button type = "button" id = "postcodeLauncher" ng-click= "rests.setRests()">See the nearest things!</button>
 		
 		<div ng-show = "rests.showValues" class = "ng-hide" id = "theCode">
-		<ul>
-			<li ng-repeat="x in myData">
+		THE RESTAURANTS:
+		<ul>	
+			<li ng-repeat="x in restNames">
 				{{x.Name}} 
 			</li>
+		</ul>
+		THE CUISINES
+		<ul>
+			<li ng-repeat="x in restCuisines">
+				{{x}}
+			</li>
+			
 		</ul>
 		</div>
 
