@@ -1,17 +1,21 @@
 <!doctype html>
-    <html>
+    <html ng-app='myApp'> 
       <head>
       	<link rel = "stylesheet" type = "text/css" href = "stylesheet.css">
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
       </head>
       <body>
 
-	  <div ng-app="myApp" ng-controller="customersCtrl">
-	  	<div id = "theButton">
-			  <input type = "text" ng-model="yourPostcode" placeholder="Please Enter your postcode">
-			  <button type = "button" id = "postcodeLauncher" onclick = "doTheThing()">See the nearest things!</button>
-		</div>
-		<div id = "theCode">
+	  <div ng-controller='customersCtrl as rests'>
+		<input type = "text" ng-model="rests.yourPostcode" placeholder="Please Enter your postcode">
+		<button type = "button" id = "postcodeLauncher" ng-click= "rests.setRests()">See the nearest things!</button>
+		
+		<div ng-show = "rests.showValues" class = "ng-hide" id = "theCode">
+		<ul>
+			<li ng-repeat="x in myData">
+				{{x.Name}} 
+			</li>
+		</ul>
 		</div>
 
 	  </div>	  
