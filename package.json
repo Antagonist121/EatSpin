@@ -1,0 +1,23 @@
+{
+  "name": "eatspin",
+  "version": "1.0.0",
+  "description": "The Memes are delicious",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Antagonist121/EatSpin.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Antagonist121/EatSpin/issues"
+  },
+  "homepage": "https://github.com/Antagonist121/EatSpin#readme",
+  "dependencies": {
+    "angular": "^1.5.0",
+    "chart.js": "^1.0.2"
+  }
+}
