@@ -3,11 +3,7 @@
       <head>
       	<link rel = "stylesheet" type = "text/css" href = "stylesheet.css">
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
-	<script src ="Chart.js"></script>
-	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-   	
-
-	   
+	<script src = "http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 	</head>
       <body>
 
@@ -16,7 +12,7 @@
 		<button type = "button" id = "postcodeLauncher" ng-click= "rests.setRests()">See the nearest things!</button>
 		
 		<div ng-show = "rests.showValues" class = "ng-hide" id = "theCode">
-		THE RESTAURANTS:
+		<!--THE RESTAURANTS:
 		<ul>	
 			<li ng-repeat="x in restNames">
 				{{x.Name}} 
@@ -33,14 +29,16 @@
 			<li ng-repeat="(cuisine, restauNames) in restCuisineNames">
 				Cuisine {{cuisine}} has the restaurants {{restauNames}}:
 			</li>
-		</ul>
+		</ul>-->
+			<button type = "button" id = "rotateChart" ng-click = "clickityClick()">Click To Rotate!</button> 
 		</div>
 		<div id ="chart_div"></div>
-		<button type = "button" id = "rotateChart" onclick = "loadNewChart()">Click To Rotate!</button> 
-		<!--<canvas id = "myChart" width = "400" height = "400"></canvas>-->
-	  </div>	  
+
+	 <div linear-chart chart-data="cuisine"></div>
+	<!--	<canvas id = "myChart" width = "400" height = "400"></canvas>-->
+	  </div>	 
+	
 	<script src="index.js"></script>
-	<script src="chartCode.js"></script>
       </body>
  </html>
 

@@ -22,7 +22,7 @@ var data = [
 
 var myDoughnutChart = new Chart(ctx).Doughnut(data, {
 				animateScale: true
-				});*/
+				});
 var i = 1;
       // Load the Visualization API and the corechart package.
       google.charts.load('current', {'packages':['corechart']});
@@ -75,17 +75,19 @@ function loadNewChart(){
           ['Zucchini', 1],
           ['Pepperoni', 1]
         ])
-			var options = { 'title':'How Much Pizza I Ate Last Night',
+	var options = { 'title':'How Much Pizza I Ate Last Night',
         	        	'width':400,
                 	        'height':300,
 				'pieHole':0.4,
 				'enableInteractivity':false,
 				'pieStartAngle':i
 	       				};
-	        	var chart = new google.visualization.PieChart(document.getElementById('chart_div'));		
-			chart.draw(data,options);
+       	var chart = new google.visualization.PieChart(document.getElementById('chart_div'));		
+	chart.draw(data,options);
 	i++;
 }
+*/
+function loadNewChart(){
 
-
-
+	d3.select("helloworld").append("p").text("yay");
+}
