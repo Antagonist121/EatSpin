@@ -57,38 +57,57 @@ app.directive("linearChart", function($window) {
 				var height = 1000;
 				var radius = Math.min(width, height) / 2;
 				
-				var salesDataToPlot=scope.restCuisines;
+				var curRotate = 0;
+
+				var dataToPlot = scope.restCuisines;
+				var coloursToPlot = [];
+
 				var padding = 20;
 				var pathClass = "path";
-				var colour, arc, pie, svg, g;
 
 				var d3 = $window.d3;
 				var rawSvg = elem.find("svg")[0];
-				var svg = d3.select(rawSvg);
-				
-
-				function createChart() {
-					colour = d3.scale.category20(); 
-
-					arc = d3.svg.arc().outerRadius(radius - 20)
-						
-
-					pie = d3.layout.pie().sort(null).value(function(d) { return 1; });
-
-					svg = d3.select("body").append("svg")
+				var colour = d3.scale.category20();
+				var arc = d3.svg.arc().outerRadius(radius - 20);
+				var pie = d3.layout.pie().sort(null).value(function(d) { return 1;} );
+				var svg = d3.select("body").append("svg")
 						.attr("width", width)
 						.attr("height", height)
 						.append("g")
 						.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+				var g;		
+			/*	var g = svg.selectAll (".arc")
+					.data(pie(dataToPlot))
+					.enter().append("g")
+					.attr("class", "arc")
+					.on("click", function(d) { removeData(d);})*/
+					
+			
 
+				function removeData(dataToRemove){
+					var index = dataToPlot.indexOf(dataToRemove.data);
+					if(index > -1){
+						dataToPlot.splice(index, 1);
+						coloursToPlot.splice(index,1);
+						createChart(false);
+					}
+				}
+
+				function createChart(firstTime) {
 					g = svg.selectAll (".arc")
-						.data(pie(salesDataToPlot))
+						.data(pie(dataToPlot))
 						.enter().append("g")
-						.attr("class", "arc");
+						.attr("class", "arc")
+						.on("click", function(d) {removeData(d);});
+
+
+					if(firstTime){
 
 					g.append("path")
 						.attr("d", arc)
-						.style("fill", function(d, i) { return colour(i); })
+						.style("fill", function(d, i) { 		
+							coloursToPlot.push(colour(i));
+							return coloursToPlot[i]; })
 						.transition()
 							.ease("bounce")
 							.duration(2000)
@@ -97,7 +116,21 @@ app.directive("linearChart", function($window) {
 							.ease("elastic")
 							.delay(function(d, i) {return 2000 + i * 50; })
 							.duration(750)
-							.attrTween("d", tweenDonut);
+							.attrTween("d", tweenDonut)
+
+						
+						/*.transition()
+							.delay(5000)
+							.duration(2000)
+							.attrTween("d", tweenArc(function(d,i) {
+								var angleStart = d.endAngle;
+								    angleDiff = d.startAngle - d.endAngle;
+								
+								return {
+									startAngle: angleStart,
+ 									endAngle: angleStart - angleDiff
+								};
+							}));*/
 
 		
 	
@@ -115,11 +148,33 @@ app.directive("linearChart", function($window) {
 							.ease("bounce")
 							.delay(function(d, i) {return 2000 + i * 51; })
 							.duration(500)
-						.text(function(d) {return d.data; });
+						.text(function(d) {return d.data; })
+
+
+					} else {
+					g.select("path")
+						.attr("d", arc)
+						.style("fill", function(d, i) {
+							return coloursToPlot[i];
+						})
+						.transition()
+							.duration(0)
+							.attrTween("d", tweenDonut)			
+
+					g.select("text")
+						.attr("transform", function(d) {
+							d.outerRadius = radius;
+							d.innerRadius = radius/2;
+							return "translate(" + arc.centroid(d) + ")rotate(" + angle(d) + ")";
+						})
+						.attr("dy", ".35em")
+						.attr("text-anchor", "middle")
+						.text(function(d) {alert(d.data); return d.data; });
+
+					}
+
 						
-													
-							
-							
+					setTimeout(function() { rotateChart(); }, (2750 + (dataToPlot.length * 50)));
 
 
 				};
@@ -135,7 +190,35 @@ app.directive("linearChart", function($window) {
 					var i = d3.interpolate({innerRadius: 0}, b);
 					return function(t) { return arc(i(t)); };
 				}
-				createChart();
+
+				function tweenArc(b) {
+					return function(a, i) {
+						var d = b.call(this, a, i), i = d3.interpolate(a, d);
+						for (var k in d) a[k] = d[k];
+						return function(t) { return arc(i(t)); };
+					};
+				}
+
+			
+				function rotateChart() {
+					g.attr("transform", function(d) {
+						return "rotate(" + curRotate + ")";
+					})
+
+					if(curRotate == 360){
+						curRotate = 0.1;
+					} else {
+						curRotate+= 0.1;
+					}
+					
+					setTimeout(function() { rotateChart(); }, 25);
+
+				}
+			
+			
+
+
+				createChart(true);
 
 			}
 		}
@@ -149,3 +232,4 @@ function angle(d){
 
 	return a;
 }
+
