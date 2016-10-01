@@ -215,9 +215,6 @@ app.directive("linearChart", function($window) {
 
 				}
 			
-			
-
-
 				createChart(true);
 
 			}
